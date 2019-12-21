@@ -1,5 +1,7 @@
 <?php
 
+define('SHOPLEMO_DEBUG_MODE', false);
+
 class ControllerExtensionPaymentShoplemo extends Controller
 {
     public function index()
@@ -40,6 +42,14 @@ class ControllerExtensionPaymentShoplemo extends Controller
 
         $items = [];
 
+        if (SHOPLEMO_DEBUG_MODE)
+        {
+            echo 'Products:';
+            echo '<br />';
+            var_dump($products);
+            echo '<br />';
+        }
+
         foreach ($products as $product)
         {
             $unit_price = $product['price'];
@@ -54,7 +64,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
                 'name' => $product['name'] . ' ' . $product['model'],
                 'quantity' => $product['quantity'],
                 'type' => 1,
-                'price' => ($this->currency->format($unit_price, $order_info['currency_code'], $order_info['currency_value'], false) * 100),
+                'price' => bcmul($unit_price, 100.0, 2),
             ];
         }
 
@@ -62,13 +72,21 @@ class ControllerExtensionPaymentShoplemo extends Controller
 
         if (is_object($shippingInfo) || is_array($shippingInfo))
         {
-            $items[] = [
-                'category' => 0,
-                'name' => 'Kargo Ücreti',
-                'quantity' => 1,
-                'type' => 1,
-                'price' => ($this->currency->format($shippingInfo['cost'], $order_info['currency_code'], $order_info['currency_value'], false) * 100),
-            ];
+            if (isset($this->session->data['coupon']))
+            {
+                $couponInfo = $this->getCouponInfo($this->session->data['coupon']);
+            }
+
+            if (!isset($couponInfo) || (isset($couponInfo) && $couponInfo['shipping'] !== '1'))
+            {
+                $items[] = [
+                    'category' => 0,
+                    'name' => 'Kargo Ücreti',
+                    'quantity' => 1,
+                    'type' => 1,
+                    'price' => bcmul($shippingInfo['cost'], 100.0, 2),
+                ];
+            }
         }
 
         $requestBody = [
@@ -84,8 +102,8 @@ class ControllerExtensionPaymentShoplemo extends Controller
             ],
             'basket_details' => [
                 'currency' => 'TRY',
-                'total_price' => ($this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false) * 100),
-                'discount_price' => ($this->currency->format(abs($this->calculateDiscounts()), $order_info['currency_code'], $order_info['currency_value'], false) * 100),
+                'total_price' => bcmul($order_info['total'], 100.0, 2),
+                'discount_price' => bcmul(abs($this->calculateDiscounts()), 100.0, 2),
                 'items' => $items,
             ],
             'shipping_details' => [
@@ -114,6 +132,20 @@ class ControllerExtensionPaymentShoplemo extends Controller
             'fail_redirect_url' => $this->getSiteUrl() . 'index.php?route=checkout/cart',
         ];
 
+        if (SHOPLEMO_DEBUG_MODE)
+        {
+            echo 'Order Info:';
+            echo '<br />';
+            var_dump($order_info);
+            echo '<br />';
+            echo '<br />';
+            echo 'Request body:';
+            echo '<br />';
+            var_dump($requestBody);
+            echo '<br />';
+            echo '<br />';
+        }
+
         $requestBody = json_encode($requestBody);
 
         if (function_exists('curl_version'))
@@ -136,6 +168,14 @@ class ControllerExtensionPaymentShoplemo extends Controller
             ]);
             $result = @curl_exec($ch);
 
+            if (SHOPLEMO_DEBUG_MODE)
+            {
+                echo '<br />';
+                echo 'result:<br />';
+                echo $result;
+                echo '<br />';
+            }
+
             if (curl_errno($ch))
             {
                 die('Shoplemo connection error. Details: ' . curl_error($ch));
@@ -149,7 +189,17 @@ class ControllerExtensionPaymentShoplemo extends Controller
                 {
                     return $result;
                 }
-                die('Request to Shoplemo failed.:' . $result);
+
+                if (SHOPLEMO_DEBUG_MODE)
+                {
+                    echo '<br />';
+                    echo 'Callback Result:';
+                    echo '<br />';
+                    var_dump($result);
+                    echo '<br />';
+                }
+
+                die('Request to Shoplemo failed.:' . $result['details']);
             }
             catch (Exception $ex)
             {
@@ -256,6 +306,15 @@ class ControllerExtensionPaymentShoplemo extends Controller
             $shipping_info = false;
         }
 
+        if (SHOPLEMO_DEBUG_MODE)
+        {
+            echo '<br />';
+            echo '<br />shipping:';
+            echo '<br />';
+            var_dump($shipping_info);
+            echo '<br />';
+        }
+
         if ($shipping_info)
         {
             if ($shipping_info['tax_class_id'])
@@ -269,6 +328,13 @@ class ControllerExtensionPaymentShoplemo extends Controller
         }
 
         return $shipping_info;
+    }
+
+    private function getCouponInfo($couponId)
+    {
+        $this->load->model('extension/total/coupon');
+
+        return $this->model_extension_total_coupon->getCoupon($couponId);
     }
 
     private function calculateDiscounts()
@@ -322,9 +388,30 @@ class ControllerExtensionPaymentShoplemo extends Controller
         }
 
         $discountsApplied = 0;
+
+        if (isset($this->session->data['coupon']))
+        {
+            $couponInfo = $this->getCouponInfo($this->session->data['coupon']);
+        }
+
+        if (SHOPLEMO_DEBUG_MODE)
+        {
+            echo '<br />';
+            echo '<br />totals:';
+            echo '<br />';
+            var_dump($totals);
+            echo '<br />';
+            echo '<br />';
+        }
+
         foreach ($totals as $total)
         {
             if ($total['value'] < 0)
+            {
+                $discountsApplied += $total['value'];
+            }
+
+            if ($total['code'] == 'shipping' && isset($couponInfo) && $couponInfo['shipping'] === '1')
             {
                 $discountsApplied += $total['value'];
             }

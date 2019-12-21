@@ -1,0 +1,19 @@
+
+{% if shoplemo_response.status == 'success' %}
+<div id="shoplemo-area">
+	<script src="https://payment.shoplemo.com/assets/js/shoplemo.js"></script>
+	<iframe src="{{shoplemo_response.url}}" id="shoplemoiframe" frameborder="0" scrolling="no" style="width: 100%;"></iframe>
+
+	<script type="text/javascript">
+
+	setTimeout(function(){ 
+		iFrameResize({ log: true },'#shoplemoiframe');
+	}, 1000);
+
+	</script>
+</div>
+{% else %}
+	{% for detail in shoplemo_response.details %}
+		- {{ detail }} </br>
+	{% endfor %}
+{% endif %}

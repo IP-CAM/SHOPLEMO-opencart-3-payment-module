@@ -12,7 +12,6 @@ class ControllerExtensionPaymentShoplemo extends Controller
         $this->load->model('setting/setting');
         $this->document->setTitle($this->language->get('heading_title'));
 
-        echo $this->request->server['REQUEST_METHOD'];
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm())
         {
             $this->model_setting_setting->editSetting('payment_shoplemo', [

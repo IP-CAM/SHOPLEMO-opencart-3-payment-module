@@ -3,44 +3,43 @@
 $_['heading_title']                    = 'Shoplemo.com';
 
 // Text
-$_['text_payment']                    = 'Credit Card (Secure Shopping)';
-$_['text_success']                    = 'Shoplemo Module Updated!';
-$_['text_edit']                     = 'Edit';
+$_['text_payment']                    = 'Kredi Kartı (Secure Shopping)';
+$_['text_success']                    = 'Shoplemo modülü güncellendi!';
+$_['text_edit']                     = 'Düzenle';
 $_['text_shoplemo']    = '<a href="https://www.shoplemo.com/" target="_blank"><img src="view/image/payment/shoplemo.png" alt="shoplemo" title="shoplemo"/></a>';
 
 // Entry
-$_['text_home']                        = 'Home Page';
-$_['text_payment']                    = 'Payment Methods';
+$_['text_home']                        = 'Ana Sayfa';
+$_['text_payment']                    = 'Ödeme Yöntemleri';
 $_['text_shoplemo_breadcrumbs']                    = 'Shoplemo';
 
 // Button
-$_['button_save']                    = 'Save';
-$_['button_cancel']                    = 'Cancel';
+$_['button_save']                    = 'Kaydet';
+$_['button_cancel']                    = 'Vazgeç';
 
 // Error
-$_['error_warning']                                = 'You dont have authorization for this module!';
-$_['error_shoplemo_api_key']            = '<strong>API Key</strong> must be enter!';
-$_['error_shoplemo_secret_key']            = '<strong>Secret Key</strong> must be enter!';
-$_['error_shoplemo_order_status_id']        = 'You have to choose what status will be assigned during the <strong>Payment Process!<strong>';
-$_['error_shoplemo_order_completed_id']    = 'You have to choose what status will be assigned when the <strong>Payment Approved!<strong>';
-$_['error_shoplemo_order_canceled_id']    = 'You have to choose what status will be assigned when the <strong>Payment Dont Approved!<strong>';
-$_['error_shoplemo_order_status_general']    = 'You have to choose <strong> In the payment process</strong>, <strong>If the payment approved</strong>, <strong>If the payment doesnt approved</strong> fields';
-$_['error_shoplemo_merchant_general']        = 'You have to enter <strong>API Key</strong>,<strong>API Secret</strong> informations.<br/>You can get this information from <strong>INFO</strong> section in the Shoplemo Panel.';
-$_['error_shoplemo_installment_number']    = 'You can edit<strong>Maximum Installment Count <strong>according to your preference';
+$_['error_warning']                                = 'Bu modülde işlem yapmak için yetkili değilsiniz!';
+$_['error_shoplemo_api_key']            = '<strong>API Key</strong> verisini girmek zorundasınız!';
+$_['error_shoplemo_secret_key']            = '<strong>Secret Key</strong> verisini girmek zorundasınız!';
+$_['error_shoplemo_order_status_id']        = '<strong>Ödeme işlemi</strong> sırasında sipariş durumunu seçiniz.';
+$_['error_shoplemo_order_completed_id']    = '<strong>Ödeme onaylandığında</strong> sipariş durumunu ne olarak güncellenmeli? Seçiniz.';
+$_['error_shoplemo_order_canceled_id']    ='<strong>Ödeme başarısızsa</strong> sipariş durumunu ne olarak güncellenmeli? Seçiniz.';
+$_['error_shoplemo_order_status_general']    = '<strong>Ödeme işlemi</strong>, <strong>Ödeme onayı</strong> ve <strong>Başarısız ödeme</strong> sırasında sipariş durumu ne olmalı, belirtmelisiniz!';
+$_['error_shoplemo_merchant_general']        = 'Mağazanıza ait <strong>API Key</strong> ve <strong>API Secret</strong> bilgisini girmelisiniz.<br/> Bu bilgileri Shoplemo Merchant panelinizde, \"Mağazalarım\" bölümünden elde edebilirsiniz.';
 
-$_['api_information']            = 'Integration API Information';
-$_['information_tab']            = '(You can see from the INFORMATION tab of the store panel)';
+$_['api_information']            = 'API Bilgileri';
+$_['information_tab']            = '(Shoplemo Merchant Panel\'in Mağazalar bölümünden erişebilirsiniz.)';
 $_['api_key']                = 'API Key';
 $_['secret_key']                = 'Secret Key';
-$_['order_status']                = 'Order States';
-$_['payment_approved']            = 'When payment is confirmed';
-$_['error_payment_approved']    = 'What status is assigned to the order when the customer\'s payment is successfully collected?';
-$_['payment_notapproved']        = 'If payment is not approved';
-$_['error_payment_notapproved']    = 'What status is assigned to the order when the customer\'s payment fails?';
-$_['module_settings']            = 'Module Settings';
-$_['module_active']             = 'Active';
-$_['module_closed']             = 'Closed';
-$_['module_status']                = 'Module Status';
-$_['module_language']            = 'Module Language Option';
-$_['please_select']                = 'Please select the required field';
-$_['shoplemo_callback_text']    = 'Callback URL (You may put this is url to your Shoplemo Store Settings)';
+$_['order_status']                = 'Sipariş Durumları';
+$_['payment_approved']            = 'Ödeme onaylandığında';
+$_['error_payment_approved']    = 'Ödeme onaylandığında sipariş durumu ne olmalı?';
+$_['payment_notapproved']        = 'Eğer ödeme başarısız olursa';
+$_['error_payment_notapproved']    = 'Ödeme başarısızsa sipariş durumu ne olmalı?';
+$_['module_settings']            = 'Modül Ayarları';
+$_['module_active']             = 'Aktif';
+$_['module_closed']             = 'Kapalı';
+$_['module_status']                = 'Modül Durumu';
+$_['module_language']            = 'Modül Dil Seçimi';
+$_['please_select']                = 'Zorunlu alanları lütfen seçiniz.';
+$_['shoplemo_callback_text']    = 'Callback URL (Bu adresi Shoplemo Merchant panelinizde, Mağazalar sekmesininden API ayarlarına girmelisiniz.)';

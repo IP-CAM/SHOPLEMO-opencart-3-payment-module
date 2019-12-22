@@ -64,7 +64,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
                 'name' => $product['name'] . ' ' . $product['model'],
                 'quantity' => $product['quantity'],
                 'type' => 1,
-                'price' => bcmul($unit_price, 100.0, 2),
+                'price' => number_format($unit_price, 2, '.', '') * 100,
             ];
         }
 
@@ -84,7 +84,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
                     'name' => 'Kargo Ücreti',
                     'quantity' => 1,
                     'type' => 1,
-                    'price' => bcmul($shippingInfo['cost'], 100.0, 2),
+                    'price' => number_format($shippingInfo['cost'], 2, '.', '') * 100,
                 ];
             }
         }
@@ -102,8 +102,8 @@ class ControllerExtensionPaymentShoplemo extends Controller
             ],
             'basket_details' => [
                 'currency' => 'TRY',
-                'total_price' => bcmul($order_info['total'], 100.0, 2),
-                'discount_price' => bcmul(abs($this->calculateDiscounts()), 100.0, 2),
+                'total_price' => number_format($order_info['total'], 2, '.', '') * 100,
+                'discount_price' => number_format(abs($this->calculateDiscounts()), 2, '.', '') * 100,
                 'items' => $items,
             ],
             'shipping_details' => [
@@ -128,7 +128,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
             ]),
             'user_message' => $order_info['comment'],
             'redirect_url' => $this->getSiteUrl() . 'index.php?route=checkout/success',
-            'callback_url' => 'http://1f3a0786.eu.ngrok.io/opencart/index.php?route=extension/payment/shoplemo/callback',
+            //'callback_url' => 'http://ae0f24e0.eu.ngrok.io/opencart/index.php?route=extension/payment/shoplemo/callback',
             'fail_redirect_url' => $this->getSiteUrl() . 'index.php?route=checkout/cart',
         ];
 
@@ -217,7 +217,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
 
     public function GetIP()
     {
-        return '188.119.31.5';
+        //return '188.119.31.5';
 
         if (isset($_SERVER['HTTP_CLIENT_IP']))
         {
@@ -235,15 +235,15 @@ class ControllerExtensionPaymentShoplemo extends Controller
         return $ip;
     }
 
-    public function getSiteUrl()
+    public function getSiteUrl($admin = false)
     {
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443)
         {
-            $siteUrl = HTTPS_SERVER;
+            $siteUrl = ($admin) ? HTTPS_SERVER : HTTPS_CATALOG;
         }
         else
         {
-            $siteUrl = HTTP_SERVER;
+            $siteUrl = ($admin) ? HTTP_SERVER : HTTP_CATALOG;
         }
 
         return $siteUrl;

@@ -37,7 +37,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
 
         // Integration tab
         $shoplemoLang->integrationSettingsTitle = $this->language->get('integrationSettingsTitle');
-        $shoplemoLang->integrationSettingsDesc = $this->language->get('integrationSettingsTitleDesc');
+        $shoplemoLang->integrationSettingsTitleDesc = $this->language->get('integrationSettingsTitleDesc');
         $shoplemoLang->integrationKey = $this->language->get('integrationKey');
         $shoplemoLang->integrationSecret = $this->language->get('integationSecret');
         $shoplemoLang->integrationCallbackUrl = $this->language->get('integrationCallbackUrl');

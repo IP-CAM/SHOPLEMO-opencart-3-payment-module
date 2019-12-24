@@ -28,7 +28,7 @@ class ControllerExtensionPaymentShoplemo extends Controller
 
             $this->session->data['success'] = $this->language->get('text_success');
 
-            $this->response->redirect($this->url->link('extension/payment/shoplemo', 'user_token=' . $this->session->data['user_token'], true));
+            $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
         }
 
         $shoplemoLang = new stdClass();

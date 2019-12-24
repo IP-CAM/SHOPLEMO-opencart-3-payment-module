@@ -12,7 +12,7 @@ class ModelExtensionPaymentShoplemo extends Model
         {
             $status = false;
         }
-        elseif (!$this->config->get('payment_shoplemo_geo_zone_id') || is_null($this->config->get('payment_shoplemo_geo_zone_id')))
+        elseif (!$this->config->get('payment_shoplemo_geo_zone_id') || is_null($this->config->get('payment_shoplemo_geo_zone_id')) || $this->config->get('payment_shoplemo_geo_zone_id') == 0)
         {
             $status = true;
         }
